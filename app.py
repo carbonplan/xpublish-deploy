@@ -51,7 +51,6 @@ def _multiscales_template(datasets=[], type="", method="", version="", args=[], 
 
 
 def pyramid_coarsen(ds, factors: List[int], dims: List[str], **kwargs) -> dt.DataTree:
-
     # multiscales spec
     save_kwargs = locals()
     del save_kwargs["ds"]
@@ -72,7 +71,6 @@ def pyramid_coarsen(ds, factors: List[int], dims: List[str], **kwargs) -> dt.Dat
 
     # pyramid data
     for key, factor in enumerate(factors):
-
         skey = str(key)
         kwargs.update({d: factor for d in dims})
         pyramid[skey] = ds.coarsen(**kwargs).mean()
@@ -81,7 +79,6 @@ def pyramid_coarsen(ds, factors: List[int], dims: List[str], **kwargs) -> dt.Dat
 
 
 def make_grid_ds(ds, dim, transform):
-
     grid_shape = (dim, dim)
     bounds_shape = (dim + 1, dim + 1)
 
@@ -125,7 +122,6 @@ def pyramid_reproject(
     pyramid = dt.DataTree(data_objects={"root": root})
 
     def make_template(da, dim, dst_transform, shape=None):
-
         template = xr.DataArray(
             data=dask.array.empty(shape, chunks=shape), dims=("y", "x"), attrs=da.attrs
         )
@@ -234,7 +230,6 @@ def jsonify_zmetadata(zmetadata: dict) -> dict:
 
 
 def make_pyramid_zmetadata(pyramid):
-
     zmeta = {"metadata": {}, "zarr_consolidated_format": 1}
 
     for node in pyramid.subtree:
@@ -341,7 +336,6 @@ def get_variable_chunk(
 
         if response is None:
             with CostTimer() as ct:
-
                 arr_meta = zmetadata["metadata"][f"{group}/{var}/{array_meta_key}"]
                 da = zvariables[f"{group}/{var}"].data
 
